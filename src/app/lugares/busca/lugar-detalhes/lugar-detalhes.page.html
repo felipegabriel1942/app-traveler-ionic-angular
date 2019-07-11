@@ -3,11 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lugares/tabs/buscar"></ion-back-button>
     </ion-buttons>
-    <ion-title>Mais informações</ion-title>
+    <ion-title>{{lugar.titulo}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-button color="primary" (click)="onReservar()">Reservar</ion-button>
-
 </ion-content>
