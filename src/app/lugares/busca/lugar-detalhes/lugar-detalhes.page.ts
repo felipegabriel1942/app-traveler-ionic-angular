@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { LugaresService } from '../../lugares.service';
 import { Lugar } from '../../lugar.model';
+import { CriarReservaComponent } from '../../../reservas/criar-reserva/criar-reserva.component';
 
 @Component({
   selector: 'app-lugar-detalhes',
@@ -14,7 +15,8 @@ export class LugarDetalhesPage implements OnInit {
 
   constructor(private navCtrl: NavController,
               private route: ActivatedRoute,
-              private lugaresService: LugaresService) { }
+              private lugaresService: LugaresService,
+              private modalControler: ModalController) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -27,6 +29,20 @@ export class LugarDetalhesPage implements OnInit {
   }
 
   onReservar() {
-    this.navCtrl.navigateBack('/lugares/tabs/buscar');
-  }
+    this.modalControler
+      .create({
+        component: CriarReservaComponent,
+        componentProps: { lugarSelecionado: this.lugar}
+      })
+      .then(modalEl => {
+        modalEl.present();
+        return modalEl.onDidDismiss();
+      })
+      .then(resultData => {
+        console.log(resultData.data, resultData.role);
+        if (resultData.role === 'confirm') {
+          console.log('BOOKED!');
+        }
+      });
+    }
 }

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'lugares', pathMatch: 'full'},
   { path: 'auth', loadChildren: './auth/auth.module#AuthPageModule'},
-  { path: 'lugares', loadChildren: './lugares/lugares.module#LugaresPageModule' },
-  { path: 'reservas', loadChildren: './reservas/reservas.module#ReservasPageModule' }
+  { path: 'lugares', loadChildren: './lugares/lugares.module#LugaresPageModule', canLoad: [AuthGuard]},
+  { path: 'reservas', loadChildren: './reservas/reservas.module#ReservasPageModule', canLoad: [AuthGuard]}
 ];
 
 @NgModule({
