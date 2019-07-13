@@ -60,7 +60,7 @@ export class LugarDetalhesPage implements OnInit {
       this.modalControler
       .create({
         component: CriarReservaComponent,
-        componentProps: { lugarSelecionado: this.lugar}
+        componentProps: {lugarSelecionado: this.lugar}
       })
       .then(modalEl => {
         modalEl.present();
