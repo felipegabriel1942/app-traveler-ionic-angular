@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, ActionSheetController } from '@ionic/angular';
 import { LugaresService } from '../../lugares.service';
 import { Lugar } from '../../lugar.model';
 import { CriarReservaComponent } from '../../../reservas/criar-reserva/criar-reserva.component';
@@ -16,7 +16,8 @@ export class LugarDetalhesPage implements OnInit {
   constructor(private navCtrl: NavController,
               private route: ActivatedRoute,
               private lugaresService: LugaresService,
-              private modalControler: ModalController) { }
+              private modalControler: ModalController,
+              private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -29,7 +30,34 @@ export class LugarDetalhesPage implements OnInit {
   }
 
   onReservar() {
-    this.modalControler
+    this.actionSheetCtrl.create({
+      header: 'Escolha uma ação',
+      buttons: [
+        {
+          text: 'Selecione data',
+          handler: () => {
+            this.openModalReserva('select');
+          }
+        },
+        {
+          text: 'Data aleatoria',
+          handler: () => {
+            this.openModalReserva('random');
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'destructive'
+        }
+      ]
+    }).then(x => {
+      x.present();
+    });
+  }
+
+    openModalReserva(mode: 'select' | 'random') {
+      console.log(mode);
+      this.modalControler
       .create({
         component: CriarReservaComponent,
         componentProps: { lugarSelecionado: this.lugar}

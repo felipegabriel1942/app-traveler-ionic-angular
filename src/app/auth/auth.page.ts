@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-auth',
@@ -9,14 +10,26 @@ import { Router } from '@angular/router';
 })
 export class AuthPage implements OnInit {
 
+  estaCarrendo = false;
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
   }
 
   onLogin() {
+    this.estaCarrendo = true;
     this.authService.login();
-    this.router.navigateByUrl('/lugares/tabs/buscar');
+    this.loadingCtrl
+    .create({keyboardClose: true, message: 'Logando..'})
+    .then(x => {
+      x.present();
+      setTimeout(() => {
+        this.estaCarrendo = false;
+        x.dismiss();
+        this.router.navigateByUrl('/lugares/tabs/buscar');
+      }, 1500);
+    });
   }
 }
