@@ -56,11 +56,10 @@ export class LugarDetalhesPage implements OnInit {
   }
 
     openModalReserva(mode: 'select' | 'random') {
-      console.log(mode);
       this.modalControler
       .create({
         component: CriarReservaComponent,
-        componentProps: {lugarSelecionado: this.lugar}
+        componentProps: {lugarSelecionado: this.lugar, modoSelecionado: mode }
       })
       .then(modalEl => {
         modalEl.present();

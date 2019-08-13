@@ -1,10 +1,11 @@
 <ion-item              
-  [routerLink]="['/', 'lugares', 'tabs', 'ofertas', oferta.id]">
+  [routerLink]="['/', 'lugares', 'tabs', 'ofertas', oferta.id]"
+  lines="none">
   <ion-thumbnail slot="start">
     <ion-img [src]="oferta.imagemUrl"></ion-img>
   </ion-thumbnail>
   <ion-label>
-    <h1>{{ oferta.titulo}}</h1>
+    <h1>{{oferta.titulo}}</h1>
     <div class="detalhes-ofertas">
       <ion-icon name="calendar" color="danger"></ion-icon>
       <ion-text color="primary" class="espaco-esquerda">{{ getDate() | date }}</ion-text>

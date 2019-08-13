@@ -1,11 +1,66 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Logar</ion-title>
+    <ion-title>{{ isLogin ? 'Login' : 'Cadastro'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-button color="primary" (click)="onLogin()" *ngIf="!estaCarrendo">
-    Login
-  </ion-button>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">E-Mail</ion-label>
+              <ion-input 
+                type="email" 
+                ngModel 
+                name="email" 
+                required 
+                email
+                #emailCtrl="ngModel"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!emailCtrl.valid && emailCtrl.touched" lines="none">
+              <ion-label>Informe um email valido.</ion-label>
+            </ion-item>            
+            <ion-item>
+              <ion-label position="floating">Senha</ion-label>
+              <ion-input 
+                type="password"
+                ngModel
+                name="senha"
+                required
+                minlength="6"
+                #senhaCtrl="ngModel"></ion-input>
+            </ion-item>    
+            <ion-item 
+              *ngIf="!senhaCtrl.valid && senhaCtrl.touched" lines="none">
+              <ion-label>Deve ter pelo menos 6 caracteres.</ion-label>
+            </ion-item>            
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button 
+            type="button" 
+            color="primary" 
+            fill="clear" 
+            expand="block"
+            (click)="onTrocarAuthMode()">
+            {{ isLogin ? 'Cadastrar usuário' : 'Login'}}
+          </ion-button>
+          <ion-button 
+            type="submit" 
+            color="primary" 
+            expand="block"
+            [disabled]="!f.valid" 
+            *ngIf="!estaCarrendo">Login
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form> 
 </ion-content>

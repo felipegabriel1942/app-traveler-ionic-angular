@@ -10,6 +10,91 @@
 </ion-header>
 
 <ion-content text-center padding>
-  <p>{{lugarSelecionado.descricao}}</p>
-  <ion-button color="primary" (click)="onReservarLocal()">Reservar!</ion-button>
+  <form (ngSubmit)="onReservarLocal()" #f="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label 
+              position="floating">Primeiro nome</ion-label>
+            <ion-input 
+              type="text" 
+              ngModel 
+              name="primeiro-nome" 
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label 
+              position="floating">Sobrenome</ion-label>
+            <ion-input 
+              type="text" 
+              ngModel 
+              name="sobrenome" 
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label 
+              position="floating">Quantidade de hospedes</ion-label>
+            <ion-select [ngModel]="'2'" name="hospedes">
+              <ion-select-option value="1">1</ion-select-option>
+              <ion-select-option value="2">2</ion-select-option>
+              <ion-select-option value="3">3</ion-select-option>
+              <ion-select-option value="4">4</ion-select-option>
+              <ion-select-option value="5">5</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label 
+              position="floating">Data de entrada</ion-label>
+            <ion-datetime 
+              display-format="DD/MM/YYYY"
+              picker-format="DD/MM/YYYY"
+              [min]="lugarSelecionado.disponivelDe.toISOString()"
+              [max]="lugarSelecionado.disponivelAte.toISOString()"
+              [ngModel]="dataInicial"
+              name="data-entrada"
+              required
+              #dataEntradaCtrl="ngModel"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label 
+              position="floating">Data de saida</ion-label>
+            <ion-datetime 
+              display-format="DD/MM/YYYY"
+              picker-format="DD/MM/YYYY"
+              [min]="dataEntradaCtrl.value"
+              [max]="lugarSelecionado.disponivelAte.toISOString()"
+              [ngModel]="dataFinal"
+              name="data-saida"
+              required></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button 
+            color="primary" 
+            type="submit" 
+            expand="block"
+            [disabled]="!f.valid || !validadorDeDatas()">Reservar!</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>    
+  </form>
 </ion-content>
